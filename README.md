@@ -17,3 +17,8 @@ This tracking module is using LiDAR detection(,whose consists of relative postio
 - track_management.py
 
 - ukf_box_tracker.py
+
+
+This project was developed with valuable reference to the following GitHub repository:
+sort : https://github.com/abewley/sort.git
+hdl_localization : https://github.com/koide3/hdl_localization.git
