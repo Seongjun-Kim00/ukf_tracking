@@ -1,0 +1,123 @@
+import numpy as np
+
+ON                                  = 1
+OFF                                 = 0
+
+RAD2DEG                             = 180/np.pi
+DEG2RAD                             = 1/RAD2DEG
+MPS2KPH                             = 3.6
+KPH2MPS                             = 1/MPS2KPH
+
+FRAME_RATE                          = 20
+SAMPLE_TIME                         = 1/FRAME_RATE
+
+# TRACKING LIMIR PARAM
+MAX_UPDATE_TIME                     = 5
+IOU_THRESHOLD                       = 0.1
+
+# LIDAR DETECION PARAM
+VEHICLE_CLASS                       = 1
+PEDESTRIAN_CLASS                    = 2
+CYCLIST_CLASS                       = 3
+TRACKING_ALL_CLASS                  = OFF
+
+LIDAR_DETECTION_STATE_NUMBER        = 9
+LIDAR_DETECTION_TRACK_NUMBER        = 32
+LIDAR_DETECTION_REL_POS_X           = 0
+LIDAR_DETECTION_REL_POS_Y           = 1
+LIDAR_DETECTION_REL_POS_Z           = 2
+LIDAR_DETECTION_YAW                 = 3
+LIDAR_DETECTION_WIDTH               = 4
+LIDAR_DETECTION_HEIGHT              = 5
+LIDAR_DETECTION_LENGTH              = 6
+LIDAR_DETECTION_CLASS               = 7
+LIDAR_DETECTION_SCORE               = 8
+
+# KalmanBoxTracker
+LIDAR_TRACKING_STATE_NUMBER         = 18
+LIDAR_TRACKING_TRACK_NUMBER         = 32
+LIDAR_TRACKING_REL_POS_X            = 0
+LIDAR_TRACKING_REL_POS_Y            = 1
+LIDAR_TRACKING_REL_VEL              = 2
+LIDAR_TRACKING_REL_VEL_X            = 3
+LIDAR_TRACKING_REL_VEL_Y            = 4
+LIDAR_TRACKING_REL_ACC              = 5
+LIDAR_TRACKING_REL_ACC_X            = 6
+LIDAR_TRACKING_REL_ACC_Y            = 7
+LIDAR_TRACKING_YAW                  = 8
+LIDAR_TRACKING_YAW_RATE             = 9
+LIDAR_TRACKING_WIDTH                = 10
+LIDAR_TRACKING_HEIGHT               = 11
+LIDAR_TRACKING_LENGTH               = 12
+LIDAR_TRACKING_LIFE_TIME            = 13
+LIDAR_TRACKING_CLASS                = 14
+LIDAR_TRACKING_SCORE                = 15
+LIDAR_TRACKING_UPDATE_TIME          = 16
+LIDAR_TRACKING_ID                   = 17
+
+# Lidar UKF Prediction
+LIDAR_UKF_PREDICTION_REL_POS_X      = 0
+LIDAR_UKF_PREDICTION_REL_POS_Y      = 1
+LIDAR_UKF_PREDICTION_REL_VEL        = 2
+LIDAR_UKF_PREDICTION_REL_YAW        = 3
+LIDAR_UKF_PREDICTION_REL_YAW_RATE   = 4
+
+# Lidar UKF Measurement
+LIDAR_UKF_MEASUREMENT_REL_POS_X     = 0
+LIDAR_UKF_MEASUREMENT_REL_POS_Y     = 1
+LIDAR_UKF_MEASUREMENT_REL_YAW       = 2
+
+# Track management
+LIDAR_TRACKING_SORTING_UPDATE_TIME  = 0
+LIDAR_TRACKING_SORTING_LIFE_TIME    = 1
+LIDAR_TRACKING_SORTING_DISTANCE     = 2
+
+# UKF
+LIDAR_UKF_PARAMETER                 = [LIDAR_TRACKING_REL_POS_X , LIDAR_TRACKING_REL_POS_Y , LIDAR_TRACKING_REL_VEL  , LIDAR_TRACKING_YAW, LIDAR_TRACKING_YAW_RATE]
+LIDAR_UKF_TRACKING_FIX_PARAM        = [LIDAR_TRACKING_WIDTH     , LIDAR_TRACKING_HEIGHT    , LIDAR_TRACKING_LENGTH   , LIDAR_TRACKING_CLASS, LIDAR_TRACKING_SCORE] 
+LIDAR_UKF_MEASUREMENT_FIX_PARAM     = [LIDAR_DETECTION_WIDTH, LIDAR_DETECTION_HEIGHT, LIDAR_DETECTION_LENGTH,LIDAR_DETECTION_CLASS, LIDAR_DETECTION_SCORE ]
+LIDAR_UKF_VELOCITY_PARAM            = [LIDAR_TRACKING_REL_VEL   , LIDAR_TRACKING_REL_VEL_X , LIDAR_TRACKING_REL_VEL_Y]
+LIDAR_UKF_ACCELERATION_PARAM        = [LIDAR_TRACKING_REL_ACC   , LIDAR_TRACKING_REL_ACC_X , LIDAR_TRACKING_REL_ACC_Y]
+LIDAR_UKF_MEASUREMENT_PARAM         = [LIDAR_DETECTION_REL_POS_X, LIDAR_DETECTION_REL_POS_Y, LIDAR_DETECTION_YAW     ]
+
+# ROI
+FRONT_RANGE                         =  50
+REAR_RANGE                          = -25
+RIGHT_RANGE                         = -15
+LEFT_RANGE                          =  15
+
+EGO_X_OFFSET                        = -2
+EGO_X_RANGE                         = 2               # CN7 전장 : 4.650m
+EGO_Y_RANGE                         = 0.9             # CN7 전폭 : 1.825m
+
+# UKF
+
+P_NOISE                             = 0.01**2
+Q_NOISE                             = 0.5**2
+R_NOISE                             = 0.005**2
+YAW_SCALING_FACTOR                  = DEG2RAD*0.01**2
+VELOCITY_SCALING_FACTOR             = 1/SAMPLE_TIME * 0.01
+
+KAPPA                               = -2
+ALPHA                               = 0.05
+BETA                                = 2
+
+INIT_POS_NOISE                      = P_NOISE
+INIT_VEL_NOISE                      = P_NOISE * VELOCITY_SCALING_FACTOR
+INIT_YAW_NOISE                      = P_NOISE * YAW_SCALING_FACTOR
+INIT_YAW_RATE_NOISE                 = P_NOISE * YAW_SCALING_FACTOR * VELOCITY_SCALING_FACTOR
+
+
+PROCESS_POS_NOISE                   = Q_NOISE 
+PROCESS_VEL_NOISE                   = Q_NOISE * VELOCITY_SCALING_FACTOR
+PROCESS_YAW_NOISE                   = Q_NOISE * YAW_SCALING_FACTOR
+PROCESS_YAW_RATE_NOISE              = Q_NOISE * YAW_SCALING_FACTOR * VELOCITY_SCALING_FACTOR
+
+
+MEASUREMENT_POS_NOISE               = R_NOISE
+MEASUREMENT_YAW_NOISE               = R_NOISE * YAW_SCALING_FACTOR
+
+# YAW LIMIT
+YAW_RATE_MAXIMUM                    = 1 * 1.1 # MAX : 1, NOISE : 1.1
+YAW_MAX_VARIATION                   = YAW_RATE_MAXIMUM * SAMPLE_TIME * MAX_UPDATE_TIME   # (1 + 0.1)[rad/s] * SAMPLE_TIME[s]
+
